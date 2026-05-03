@@ -55,44 +55,31 @@ mon.setTextScale(1)
 mon.setTextColor(colors.white)
 local button={}
 mon.setBackgroundColor(colors.black)
- 
-function clearTable()
-    button = {}
-    mon.clear()
+
+local function screen()
+    
 end
 
-function setTable(name, func, xmin, xmax, ymin, ymax)
-    button[name] = {}
-    button[name]["func"] = func
-    button[name]["active"] = false
-    button[name]["xmin"] = xmin
-    button[name]["ymin"] = ymin
-    button[name]["xmax"] = xmax
-    button[name]["ymax"] = ymax
+function Button:toggle()
+    self.state = not self.state
+    self.manager:fillButton(self)
 end
+
+function Button:flash()
+    self:toggle()
+    self.manager:fillButton(self)
+
+    sleep(0.15)
+
+    self:toggle()
+    self.manager:fillButton(self)
+end
+
+
 
 function funcName()
     print("You clicked buttonText")
-end
-
-function fillTable()
-    setTable("ButtonText", funcName, 5, 25, 4, 8)
-end     
-
-
-function toggleButton(name)
-    button[name]["active"] = not button[name]["active"]
-    screen()
-end     
-
-function flash(name)
-    toggleButton(name)
-    screen()
-    sleep(0.15)
-    toggleButton(name)
-    screen()
-end
-
+end   
 
 
 return Button

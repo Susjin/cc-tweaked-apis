@@ -40,6 +40,11 @@ function ButtonsManager:addToList(button)
     self.buttons[button.name].manager = self
 end
 
+function ButtonsManager:clearScreen()
+    self.monitor.setBackgroundColor(self.defaultBGColor)
+    self.monitor.clear()
+end
+
 ---Fills a button on a given place of the screen
 ---@param button Button The button to be filled on the screen
 function ButtonsManager:fillButton(button)
