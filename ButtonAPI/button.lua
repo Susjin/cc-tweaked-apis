@@ -1,4 +1,9 @@
----@class Button Main button class
+---Main Button class
+---
+---With this class, you can create and modify buttons on a CC:Tweaked Monitor
+---
+---Made to be used with the ButtonsManager
+---@class Button 
 ---@field name string Name of the button to be indexed
 ---@field text string Text to be shown on the button (smaller than x2-x1)
 ---@field func function Function to be executed when the button is pressed (always put the argument self as first, because it will always pass itself)
@@ -27,7 +32,6 @@ Button.__intex = Button
 ---@param colorActive ccTweaked.colors.color? (Optional) Background color of the button when activated, default is colors.lime 
 ---@return Button
 function Button.new(name, text, func, x1, x2, y1, y2, textColor, colorInactive, colorActive)
-    ---@class Button
     local b = setmetatable({}, Button)
 
     b.name = name
@@ -47,19 +51,6 @@ function Button.new(name, text, func, x1, x2, y1, y2, textColor, colorInactive, 
     return b
 end
 
-   
-local mon = peripheral.wrap("top")
-if !mon then return end
-
-mon.setTextScale(1)
-mon.setTextColor(colors.white)
-local button={}
-mon.setBackgroundColor(colors.black)
-
-local function screen()
-    
-end
-
 function Button:toggle()
     self.state = not self.state
     self.manager:fillButton(self)
@@ -74,12 +65,5 @@ function Button:flash()
     self:toggle()
     self.manager:fillButton(self)
 end
-
-
-
-function funcName()
-    print("You clicked buttonText")
-end   
-
 
 return Button

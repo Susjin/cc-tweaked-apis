@@ -1,5 +1,8 @@
-local Button = require("button.lua")
-
+---Buttons Manager Class
+---
+---With this class, you can use button objects with the Button class, and render then on the monitor
+---
+---You can tweak the background and text color of the monitor
 ---@class Buttons
 ---@field buttons Button[] An array of buttons
 ---@field monitor ccTweaked.peripherals.Monitor? Monitor to display the buttons
