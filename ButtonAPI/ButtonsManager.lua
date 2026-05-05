@@ -13,10 +13,10 @@ ButtonsManager.__index = ButtonsManager
 
 ---Creates a new list of buttons
 ---@param monitor string Name of the monitor or side it is attached
----@param defaultBackgroundColor ccTweaked.colors.color? (Optional) Default background color of the monitor (default to black)
 ---@param defaultTextColor ccTweaked.colors.color? (Optional) Default text color of the monitor (default to white)
+---@param defaultBackgroundColor ccTweaked.colors.color? (Optional) Default background color of the monitor (default to black)
 ---@return ButtonsManager
-function ButtonsManager.new(monitor, defaultBackgroundColor, defaultTextColor)
+function ButtonsManager.new(monitor, defaultTextColor, defaultBackgroundColor)
     local bts = setmetatable({}, ButtonsManager)
     bts.buttons = {}
     bts.monitor = peripheral.wrap(monitor)
@@ -128,6 +128,46 @@ function ButtonsManager:label(x, y, text)
     self.monitor.setTextColor(oldTextColor)
 end
 
+---Returns a table with only the button state data and it's
+---@return table<string, boolean> buttons Contains the name and the state of all buttons
+function ButtonsManager:getButtonsStates()
+    local buttons = {}
+    for name, button in pairs(self.buttons) do
+        buttons[name] = {}
+        buttons[name].state = button.state
+    end
+    return buttons
+end
+
+---Saves all button states to a given file path
+---@param filePath string Path to the file + it's name (*eg.: "data/buttons"*)(**The extension .json is not needed**)
+function ButtonsManager:storeDataJSON(filePath)
+    local buttons = self:getButtonsStates()
+    local jsonData = textutils.serialiseJSON(buttons)
+    local file = fs.open(filePath .. ".json", "w")
+    if file then
+        file.write(jsonData)
+        file.close()
+    end
+end
+
+---Loads all button states from a given file path
+---@param filePath string Path to the file + it's name (*eg.: "data/buttons"*)(**The extension .json is not needed**)
+function ButtonsManager:loadDataJSON(filePath)
+    local file = fs.open(filePath .. ".json", "r")
+    if not file then return "File could not be read, ignoring store data..." end
+
+    local jsonData = file.readAll()
+    if not jsonData then return "File is empty" end
+
+    local buttonStates = textutils.unserialiseJSON(jsonData)
+    if not buttonStates then return "Not a valid JSON file" end
+    for name, state in pairs(buttonStates) do
+        print(name)
+        print(state.state)
+        self.buttons[name].state = state.state
+    end
+end
 
 
 return ButtonsManager
