@@ -17,7 +17,7 @@
 ---@field state boolean Current state of the button. True for active and false for inactive
 ---@field manager ButtonsManager Parent of the button, responsible for it's rendering
 local Button = {}
-Button.__intex = Button
+Button.__index = Button
 
 ---Creates a new Button
 ---@param name string Name of the button to be indexed
@@ -60,7 +60,7 @@ function Button:flash()
     self:toggle()
     self.manager:fillButton(self)
 
-    sleep(0.15)
+    sleep(0.1)
 
     self:toggle()
     self.manager:fillButton(self)

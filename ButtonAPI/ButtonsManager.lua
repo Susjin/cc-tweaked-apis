@@ -33,7 +33,7 @@ end
 function ButtonsManager.checkText(text)
     local lenght = string.len(text)
     local even = lenght % 2 == 0
-    return lenght, even and 0 or 1
+    return lenght, even and 1 or 1
 end
 
 ---Adds a button to the list of buttons
@@ -51,7 +51,7 @@ end
 ---Fills a button on a given place of the screen
 ---@param button Button The button to be filled on the screen
 function ButtonsManager:fillButton(button)
-    if !self.monitor then printError("Monitor not set/found!"); return; end
+    if not self.monitor then printError("Monitor not set/found!"); return; end
     
     local oldTextColor = self.monitor.getTextColor()
 
@@ -88,7 +88,6 @@ end
 ---Fills the screen with all buttons in the current list
 function ButtonsManager:fillButtons()
     for _, buttonData in pairs(self.buttons) do
-        local buttonBackgroundColor = buttonData.colorInactive
         self:fillButton(buttonData)
     end
 end
@@ -100,8 +99,8 @@ end
 function ButtonsManager:checkClick(x, y)
     for _, button in pairs(self.buttons) do
         if x >= button.x1 and x <= button.x2  then
-            if y >= button.x1 and y <= button.x2 then
-               button:func()
+            if y >= button.y1 and y <= button.y2 then
+               if button.func then button:func() end
                return true
             end
         end
