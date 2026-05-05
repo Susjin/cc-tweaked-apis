@@ -7,7 +7,7 @@
 --In your code, do the following: 'local ButtonAPI = {}; ButtonAPI.Button, ButtonAPI.ButtonsManager = require("ButtonAPI");'
 --Where 'ButtonAPI' is the folder with the three main files (init.lua, ButtonsManager.lua and Button.lua)
 
-local Button = require("ButtonAPI.button")
-local ButtonsManager = require("ButtonAPI.buttons")
+local Button = require("Button")
+local ButtonsManager = require("ButtonsManager")
 
 return Button, ButtonsManager

@@ -3,7 +3,7 @@
 ---With this class, you can use button objects with the Button class, and render then on the monitor
 ---
 ---You can tweak the background and text color of the monitor
----@class Buttons
+---@class ButtonsManager
 ---@field buttons Button[] An array of buttons
 ---@field monitor ccTweaked.peripherals.Monitor? Monitor to display the buttons
 ---@field defaultBGColor ccTweaked.colors.color Default background color of the monitor
@@ -15,7 +15,7 @@ ButtonsManager.__index = ButtonsManager
 ---@param monitor string Name of the monitor or side it is attached
 ---@param defaultBackgroundColor ccTweaked.colors.color? (Optional) Default background color of the monitor (default to black)
 ---@param defaultTextColor ccTweaked.colors.color? (Optional) Default text color of the monitor (default to white)
----@return Buttons
+---@return ButtonsManager
 function ButtonsManager.new(monitor, defaultBackgroundColor, defaultTextColor)
     local bts = setmetatable({}, ButtonsManager)
     bts.buttons = {}

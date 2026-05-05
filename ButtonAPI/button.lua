@@ -3,7 +3,7 @@
 ---With this class, you can create and modify buttons on a CC:Tweaked Monitor
 ---
 ---Made to be used with the ButtonsManager
----@class Button 
+---@class Button
 ---@field name string Name of the button to be indexed
 ---@field text string Text to be shown on the button (smaller than x2-x1)
 ---@field func function Function to be executed when the button is pressed (always put the argument self as first, because it will always pass itself)
@@ -15,7 +15,7 @@
 ---@field colorInactive ccTweaked.colors.color Background color of the button, default is colors.red
 ---@field colorActive ccTweaked.colors.color Background color of the button when activated, default is colors.lime 
 ---@field state boolean Current state of the button. True for active and false for inactive
----@field manager Buttons Parent of the button, responsible for it's rendering
+---@field manager ButtonsManager Parent of the button, responsible for it's rendering
 local Button = {}
 Button.__intex = Button
 
