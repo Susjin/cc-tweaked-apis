@@ -14,3 +14,5 @@ return {
     Button = Button, 
     ButtonsManager = ButtonsManager
 }
+
+--TODO: Implement an automatic install.lua (ref: https://raw.githubusercontent.com/GabrielleAkers/cc-memdb/refs/heads/main/install.lua)
