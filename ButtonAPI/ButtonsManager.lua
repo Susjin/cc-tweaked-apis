@@ -111,6 +111,8 @@ function ButtonsManager:checkClick(x, y)
     return false
 end
 
+---Writes a text to the top center of the monitor, imitating a heading
+---@param text string Text to be written
 function ButtonsManager:heading(text)
     local width, _ = self.monitor.getSize()
     local lenght, sum = self.checkText(text)
@@ -122,6 +124,10 @@ function ButtonsManager:heading(text)
     self.monitor.setTextColor(oldTextColor)
 end
 
+---Writes a text to a given pixel coordinate of the monitor
+---@param x integer X position to start writing
+---@param y integer Y position to start writing
+---@param text string Text to be written
 function ButtonsManager:label(x, y, text)
     local oldTextColor = self.monitor.getTextColor()
 
