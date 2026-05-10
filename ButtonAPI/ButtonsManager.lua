@@ -37,10 +37,13 @@ function ButtonsManager.checkText(text)
 end
 
 ---Adds a button to the list of buttons
----@param button Button
-function ButtonsManager:addToList(button)
-    self.buttons[button.name] = button
-    self.buttons[button.name].manager = self
+---@param ... Button Can be one button, or multiple
+function ButtonsManager:addToList(...)
+    local args = {...}
+    for _, button in ipairs(args) do
+        self.buttons[button.name] = button
+        self.buttons[button.name].manager = self
+    end
 end
 
 function ButtonsManager:clearScreen()
