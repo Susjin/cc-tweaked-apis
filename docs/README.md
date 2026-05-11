@@ -11,7 +11,7 @@ You can check the [documentation](ButtonAPI.md) for help on how to use it.
 
 To get the API, use the following command on your CC computer:  
 ```lua
-wget https://raw.githubusercontent.com/Susjin/cc-tweaked-apis/main/installButton.lua
+wget "https://raw.githubusercontent.com/Susjin/cc-tweaked-apis/main/installButton.lua"
 ```
 This code will download a folder named *"ButtonAPI"* that contains all the files needed for it to work.  
 ***OBS***: To update the API, run the same command, and it will overwrite the existing files with the ones on the new version.
