@@ -8,10 +8,18 @@
 ---@field size number Size of that file (in bytes)
 
 
+--[[--------------------------------------------------------------------]]
+
 local installer = {}
-installer.printStatus = true
+installer.printStatusEnabled = true
+installer.print = print
+installer.branch = "dev"
 installer.githubRawPath = "https://raw.githubusercontent.com/Susjin/cc-tweaked-apis/"
 installer.githubAPIPath = "https://api.github.com/repos/Susjin/cc-tweaked-apis/git/trees/"
+installer.projectName = {
+    dev = "Development",
+    main = "Release"
+}
 installer.whitelistButton = {
     "ButtonAPI",
     "Button.lua",
@@ -65,14 +73,12 @@ function installer.isInWhitelist(filePath, whitelist)
 end
 
 ---Prints a status message.  
----If the `installer.printStatus` atribute contains a function, execute it.  
----Else, if it's true, just print the args given. If it's false, doesn't do anything
+---If `installer.printStatus` field is true, execute the `installer.print` function.  
+---By default, it uses Lua regular `print()`, but this behavior can be changed by setting another function to the `installer.print` field
 ---@param ... any Arguments passed.
 function installer.printStatus(...)
-    if (type(installer.printStatus) == "function") then
-        installer.printStatus(...)
-    elseif (installer.printStatus) then
-        print(...)
+    if installer.printStatusEnabled then
+        installer.print(...)
     end
 end
 
@@ -187,16 +193,16 @@ function installer.downloadProject(whitelist, branch)
     local projectFiles = installer.getProjectFiles(branch, whitelist)
 
     for fileName, fileContent in pairs(projectFiles) do
-        local file = fs.open(fs.combine(projectDir, fileName), "w")
+        local file = fs.open(fileName, "w")
         if file then
             installer.printStatus(string.format("Saving %s to %s/...", fileName, projectDir))
             file.write(fileContent)
             file.close()
         end
     end
-    installer.printStatus("Source version successfully downloaded!")
+    installer.printStatus(installer.projectName[installer.branch] .. " build successfully downloaded!")
 end
 
-installer.downloadProject(installer.whitelistButton, "dev")
+installer.downloadProject(installer.whitelistButton, installer.branch)
 
 return installer
