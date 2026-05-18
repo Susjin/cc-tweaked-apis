@@ -1,3 +1,8 @@
+--ButtonAPI
+--version = "1.0.0"
+--author: Susjin
+--url: https://github.com/Susjin
+
 --Initialization of the ButtonAPI
 --Returns the two main workers of the library. You can use then separatly or together
 --Separatly:
