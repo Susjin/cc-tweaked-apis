@@ -8,24 +8,29 @@
 ---@field size number Size of that file (in bytes)
 
 
---[[--------------------------------------------------------------------]]
+--[[--------------------------------------------------------------------]]--
 
 local installer = {}
 installer.printStatusEnabled = true
 installer.print = print
+installer.releaseVersion = "1.0"
 installer.branch = "dev"
 installer.githubRawPath = "https://raw.githubusercontent.com/Susjin/cc-tweaked-apis/"
 installer.githubAPIPath = "https://api.github.com/repos/Susjin/cc-tweaked-apis/git/trees/"
-installer.projectName = {
+installer.projectStage = {
     dev = "Development",
     main = "Release"
 }
+
+--ButtonAPI
 installer.whitelistButton = {
     "ButtonAPI",
     "Button.lua",
     "ButtonsManager.lua",
     "init.lua"
 }
+
+--[[--------------------------------------------------------------------]]--
 
 ---Takes a string and divide it onto a table using a given delimiter.  
 ---Eg. using '/' as a delimiter:  
@@ -200,7 +205,7 @@ function installer.downloadProject(whitelist, branch)
             file.close()
         end
     end
-    installer.printStatus(installer.projectName[installer.branch] .. " build successfully downloaded!")
+    installer.printStatus(installer.projectStage[installer.branch] .. " build successfully downloaded!")
 end
 
 installer.downloadProject(installer.whitelistButton, installer.branch)
