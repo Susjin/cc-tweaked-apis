@@ -66,7 +66,7 @@ jobs:
         env:
           MAIN_VERSION: ${{ env.MAIN_VERSION }}
         run: |
-          if git rev-parse "v$MAIN_VERSION" >/dev/null 2>&1; then
+          if git rev-parse "v${{ env.MAIN_VERSION }}" >/dev/null 2>&1; then
             echo "TAG_EXISTS=true" >> $GITHUB_ENV
           else
             echo "TAG_EXISTS=false" >> $GITHUB_ENV
@@ -81,13 +81,13 @@ jobs:
         if: env.TAG_EXISTS == 'false'
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: v$MAIN_VERSION
-          name: Release v$MAIN_VERSION
+          tag_name: v${{ env.MAIN_VERSION }}
+          name: Release v${{ env.MAIN_VERSION }}
           generate_release_notes: true # Automatic changelog from commits after body
           body: |
             ### All APIs versions included on this release:
-            * **Main install script (CC:Tweaked):** `v$MAIN_VERSION`
-            * **ButtonAPI:** `v$BUTTON_VERSION`
+            * **Main install script (CC:Tweaked):** `v${{ env.MAIN_VERSION }}`
+            * **ButtonAPI:** `v${{ env.BUTTON_VERSION }}`
                         
             ---
             ### 📝 Full Changelog:
