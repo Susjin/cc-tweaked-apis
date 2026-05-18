@@ -55,7 +55,7 @@ jobs:
         id: get_apis_version
         run: |
           # ButtonAPI
-          BUTTON_VERSION=$(grep -oP '--version\s*=\s*"\K[^"]+' ButtonAPI/init.lua)
+          BUTTON_VERSION=$(grep -oP 'version\s*=\s*"\K[^"]+' ButtonAPI/init.lua)
 
 
           # Saving to ENV
