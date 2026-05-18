@@ -25,7 +25,8 @@ jobs:
       - name: Change branch to main
         id: change-to-main
         run: |
-          sed -i 's/installer.branch = "dev"/installer.branch = "main"/g' install.lua
+          sed -i 's|installer.branch = "dev"|installer.branch = "main"|g' install.lua
+          sed -i 's|/dev/install.lua|/main/install.lua|g' docs/README.md
 
       - name: Commit and push
         id: commit-and-push
@@ -38,6 +39,7 @@ jobs:
             echo "Branch set already is 'main'."
           else
             git add install.lua
+            git add docs/README.md
             # O [skip ci] evita que esse commit dispare outros workflows acidentalmente
             git commit -m "install.lua: change branch from 'dev' to 'main' [skip ci]"
             git push
@@ -46,40 +48,46 @@ jobs:
       - name: Get version for Release
         id: get-main-release-version
         run: |
-          MAIN-VERSION=$(grep -oP 'installer.releaseVersion\s*=\s*"\K[^"]+' install.lua)
-          echo "MAIN-VERSION=$MAIN-VERSION" >> $GITHUB_ENV
+          MAIN_VERSION=$(grep -oP 'installer.releaseVersion\s*=\s*"\K[^"]+' install.lua)
+          echo "MAIN_VERSION=$MAIN_VERSION" >> $GITHUB_ENV
 
       - name: Get APIs version
         id: get_apis_version
         run: |
           # ButtonAPI
-          BUTTON-VERSION=$(grep -oP '--version\s*=\s*"\K[^"]+' ButtonAPI/init.lua)
+          BUTTON_VERSION=$(grep -oP '--version\s*=\s*"\K[^"]+' ButtonAPI/init.lua)
 
 
           # Saving to ENV
-          echo "BUTTON-VERSION=$BUTTON-VERSION" >> $GITHUB_ENV
+          echo "BUTTON_VERSION=$BUTTON_VERSION" >> $GITHUB_ENV
 
       - name: Checking if release tag already exists
         id: check_tag
+        env:
+          MAIN_VERSION: ${{ env.MAIN_VERSION }}
         run: |
-          if git rev-parse "v${{ env.MAIN-VERSION }}" >/dev/null 2>&1; then
-            echo "TAG-EXISTS=true" >> $GITHUB_ENV
+          if git rev-parse "v$MAIN_VERSION" >/dev/null 2>&1; then
+            echo "TAG_EXISTS=true" >> $GITHUB_ENV
           else
-            echo "TAG-EXISTS=false" >> $GITHUB_ENV
+            echo "TAG_EXISTS=false" >> $GITHUB_ENV
           fi
 
       - name: Creating Tag and Release with APIs version
         id: create-tag-and-release
-        if: env.TAG-EXISTS == 'false'
+        env:
+          MAIN_VERSION: ${{ env.MAIN_VERSION }}
+          BUTTON_VERSION: ${{ env.BUTTON_VERSION }}
+          TAG_EXISTS: ${{ env.TAG_EXISTS }}
+        if: env.TAG_EXISTS == 'false'
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: v${{ env.MAIN-VERSION }}
-          name: Release v${{ env.MAIN-VERSION }}
+          tag_name: v$MAIN_VERSION
+          name: Release v$MAIN_VERSION
           generate_release_notes: true # Automatic changelog from commits after body
           body: |
             ### All APIs versions included on this release:
-            * **Main install script (CC:Tweaked):** `v${{ env.MAIN-VERSION }}`
-            * **ButtonAPI:** `v${{ env.BUTTON-VERSION }}`
+            * **Main install script (CC:Tweaked):** `v$MAIN_VERSION`
+            * **ButtonAPI:** `v$BUTTON_VERSION`
                         
             ---
             ### 📝 Full Changelog:
